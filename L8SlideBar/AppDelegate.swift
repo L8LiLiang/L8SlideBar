@@ -16,6 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.makeKeyAndVisible()
+        
+        let controller = L8SlideBarController(titleViewHeight: 40, slideLineHeight: 2)
+        controller.titles = ["1","2","3","4","5","6","7","8","9","1000000"]
+        
+        for i in 0..<10 {
+            let ctl = TestController(nibName: nil, bundle: nil)
+            ctl.view.backgroundColor = randomColor()
+            ctl.titleDesc = "\(i)"
+            controller.controllers.append(ctl)
+        }
+        
+        
+        self.window?.rootViewController = controller
+        
         return true
     }
 
@@ -42,5 +59,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 
+}
+
+func randomColor()->UIColor{
+    
+    let red = CGFloat(arc4random_uniform(256))/255.0
+    let green = CGFloat(arc4random_uniform(256))/255.0
+    let blue = CGFloat(arc4random_uniform(256))/255.0
+    //    srand48(Int(time(nil)))
+    //    let alpha = drand48() // 0.396464773760275
+    //    print("\(red,green,blue)")
+    return UIColor(red: red, green: green, blue: blue, alpha: 1)
 }
 
