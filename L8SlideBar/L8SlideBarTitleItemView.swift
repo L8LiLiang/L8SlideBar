@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol L8ItemViewDelegate:class {
-    func taped(itemView:L8ItemView)->Void
+protocol L8SlideBarTitleItemViewDelegate:class {
+    func taped(itemView:L8SlideBarTitleItemView)->Void
 }
 
 
-class L8ItemView: UIView {
+class L8SlideBarTitleItemView: UIView {
 
-    weak var delegate:L8ItemViewDelegate?
+    weak var delegate:L8SlideBarTitleItemViewDelegate?
     
     lazy var titleLabel:UILabel = {
         let label = UILabel()

@@ -11,7 +11,7 @@ import Foundation
 
 let myGreenColor = UIColor(red: 73/255.0, green: 206/255.0, blue: 23/255.0, alpha: 1.0)
 
-class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,L8ItemViewDelegate {
+class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,L8SlideBarTitleItemViewDelegate {
     
     var titles:[String] = []
     var controllers:[UIViewController] = []
@@ -45,9 +45,9 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     
     private var currentChildController:UIViewController?
     
-    private var currentItemView:L8ItemView?
+    private var currentItemView:L8SlideBarTitleItemView?
     
-    private var itemViews:[L8ItemView] = []
+    private var itemViews:[L8SlideBarTitleItemView] = []
 
     private var satusIndicateLineXOffset:CGFloat {
         get {
@@ -147,7 +147,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         
         for i in 0..<self.titles.count {
             let x = CGFloat(i) * self.titleViewItemWidth
-            let itemView = L8ItemView(frame: CGRect(x: x, y: 0, width: self.titleViewItemWidth, height: itemViewHeight))
+            let itemView = L8SlideBarTitleItemView(frame: CGRect(x: x, y: 0, width: self.titleViewItemWidth, height: itemViewHeight))
             self.titleView.addSubview(itemView)
             itemView.delegate = self
             itemView.tag = i
@@ -193,7 +193,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     
-    func taped(itemView:L8ItemView) {
+    func taped(itemView:L8SlideBarTitleItemView) {
         
         var oldFrame = self.statusIndicateLineView.frame
         oldFrame.origin.x = itemView.frame.origin.x + satusIndicateLineXOffset
@@ -222,7 +222,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         self.changeCurrentItemView(itemView)
     }
     
-    func changeCurrentItemView(itemView:L8ItemView){
+    func changeCurrentItemView(itemView:L8SlideBarTitleItemView){
         if let view = self.currentItemView {
             view.titleColor = self.deselectedTitleColor
         }

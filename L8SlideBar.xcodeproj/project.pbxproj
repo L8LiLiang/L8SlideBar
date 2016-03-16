@@ -13,8 +13,7 @@
 		212872C21C96961E00CAC526 /* L8SlideBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872C11C96961E00CAC526 /* L8SlideBarTests.swift */; };
 		212872CD1C96961E00CAC526 /* L8SlideBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872CC1C96961E00CAC526 /* L8SlideBarUITests.swift */; };
 		212872DB1C9696FF00CAC526 /* L8SlideBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */; };
-		212872DD1C96A5AE00CAC526 /* L8ItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DC1C96A5AD00CAC526 /* L8ItemView.swift */; };
-		212872DF1C96BABE00CAC526 /* L8SlideCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DE1C96BABE00CAC526 /* L8SlideCell.swift */; };
+		212872DD1C96A5AE00CAC526 /* L8SlideBarTitleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */; };
 		2129BE061C97AB3A003C8195 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2129BE051C97AB3A003C8195 /* TestController.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,8 +47,7 @@
 		212872CC1C96961E00CAC526 /* L8SlideBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L8SlideBarUITests.swift; sourceTree = "<group>"; };
 		212872CE1C96961E00CAC526 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarController.swift; sourceTree = "<group>"; };
-		212872DC1C96A5AD00CAC526 /* L8ItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8ItemView.swift; sourceTree = "<group>"; };
-		212872DE1C96BABE00CAC526 /* L8SlideCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideCell.swift; sourceTree = "<group>"; };
+		212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarTitleItemView.swift; sourceTree = "<group>"; };
 		2129BE051C97AB3A003C8195 /* TestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,8 +104,7 @@
 				212872B51C96961E00CAC526 /* LaunchScreen.storyboard */,
 				212872B81C96961E00CAC526 /* Info.plist */,
 				212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */,
-				212872DC1C96A5AD00CAC526 /* L8ItemView.swift */,
-				212872DE1C96BABE00CAC526 /* L8SlideCell.swift */,
+				212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */,
 				2129BE051C97AB3A003C8195 /* TestController.swift */,
 			);
 			path = L8SlideBar;
@@ -262,8 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2129BE061C97AB3A003C8195 /* TestController.swift in Sources */,
-				212872DD1C96A5AE00CAC526 /* L8ItemView.swift in Sources */,
-				212872DF1C96BABE00CAC526 /* L8SlideCell.swift in Sources */,
+				212872DD1C96A5AE00CAC526 /* L8SlideBarTitleItemView.swift in Sources */,
 				212872AD1C96961E00CAC526 /* AppDelegate.swift in Sources */,
 				212872DB1C9696FF00CAC526 /* L8SlideBarController.swift in Sources */,
 			);
