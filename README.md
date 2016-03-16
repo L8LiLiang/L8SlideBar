@@ -6,10 +6,8 @@ LSlideBar是用swift语言编写的滚动栏栏工具。
 #使用
 
 把
-<
 L8SlideBarController.swift
 L8SlideBarTitleItemView.swift
->
 两个文件添加到工程中
 
 
