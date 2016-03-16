@@ -19,11 +19,10 @@ class L8ItemView: UIView {
     
     lazy var titleLabel:UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(16)
+        label.font = UIFont.systemFontOfSize(14)
         label.textColor = UIColor.blackColor()
         label.text = "swift"
-        label.textAlignment = .Center
-        //label.backgroundColor = UIColor.yellowColor()
+        label.textAlignment = .Left
         return label
     }()
     
@@ -74,7 +73,6 @@ class L8ItemView: UIView {
         tapGesture.numberOfTouchesRequired = 1
         self.addGestureRecognizer(tapGesture)
         
-        //self.backgroundColor = UIColor.redColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,7 +81,7 @@ class L8ItemView: UIView {
     
     func taped(sender:UITapGestureRecognizer)->Void{
         self.delegate?.taped(self)
-        
+        print("taped")
     }
     
     deinit{

@@ -9,17 +9,36 @@
 import UIKit
 import Foundation
 
+let myGreenColor = UIColor(red: 73/255.0, green: 206/255.0, blue: 23/255.0, alpha: 1.0)
+
 class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,L8ItemViewDelegate {
     
     var titles:[String] = []
     var controllers:[UIViewController] = []
     
     var titleViewHeight:CGFloat = 40
-    var itemWidth:CGFloat = 120
+    var titleViewItemWidth:CGFloat = 80
     
-    var slideLineHeight:CGFloat = 2
-    var slideLineWidth:CGFloat = 80
-    var showSlideLine:Bool = true
+    var statusIndicateLineHeight:CGFloat = 2 {
+        didSet {
+            if statusIndicateLineHeight >= titleViewHeight
+            {
+                statusIndicateLineHeight = titleViewHeight / 4
+            }
+        }
+    }
+    var statusIndicateLineWidth:CGFloat = 60 {
+        didSet {
+            if statusIndicateLineWidth > titleViewItemWidth {
+                statusIndicateLineWidth = titleViewItemWidth
+            }
+        }
+    }
+    var showStatusIndicateLine:Bool = true
+    var selectedTitleColor = myGreenColor
+    var deselectedTitleColor = UIColor(red: 60/255.0, green: 60/255.0, blue: 60/255.0, alpha: 1.0)
+    var statusIndicateLineColor = myGreenColor
+    var titleFont = UIFont.systemFontOfSize(16)
     
     
     private var currentSelectIndex:Int = 0
@@ -30,9 +49,9 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     
     private var itemViews:[L8ItemView] = []
 
-    private var slideLineXOffset:CGFloat {
+    private var satusIndicateLineXOffset:CGFloat {
         get {
-            return (self.itemWidth - self.slideLineWidth ) / 2.0
+            return (self.titleViewItemWidth - self.statusIndicateLineWidth ) / 2.0
         }
     }
     
@@ -47,18 +66,10 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         return view
     }()
     
-    private lazy var contentView:UIScrollView = {
-        let view = UIScrollView()
-        view.backgroundColor = UIColor.whiteColor()
-        view.showsHorizontalScrollIndicator = false
-        view.showsVerticalScrollIndicator = false
-        view.bounces = false
-        return view
-    }()
     
-    private lazy var slideLineView:UIView = {
+    private lazy var statusIndicateLineView:UIView = {
        let view = UIView()
-        view.backgroundColor = UIColor.greenColor()
+        view.backgroundColor = self.statusIndicateLineColor
         return view
     }()
     
@@ -80,9 +91,9 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         return colleView
     }()
     
-    init(titleViewHeight:CGFloat,slideLineHeight:CGFloat){
+    init(titleViewHeight:CGFloat,statusIndicateLineHeight:CGFloat){
         self.titleViewHeight = titleViewHeight
-        self.slideLineHeight = slideLineHeight
+        self.statusIndicateLineHeight = statusIndicateLineHeight
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -100,18 +111,14 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         
         self.view.backgroundColor = UIColor.redColor()
         
-        if self.showSlideLine {
-            self.slideLineView.frame = CGRect(x: slideLineXOffset, y: titleViewHeight - slideLineHeight, width: slideLineWidth, height: slideLineHeight)
-            self.titleView.addSubview(self.slideLineView)
+        if self.showStatusIndicateLine {
+            self.statusIndicateLineView.frame = CGRect(x: satusIndicateLineXOffset, y: titleViewHeight - statusIndicateLineHeight, width: statusIndicateLineWidth, height: statusIndicateLineHeight)
+            self.titleView.addSubview(self.statusIndicateLineView)
         }
         self.view.addSubview(self.titleView)
         self.configTitleView()
         
         self.configCollectionView()
-        
-//        self.contentView.backgroundColor = UIColor.lightGrayColor()
-//        self.view.addSubview(self.contentView)
-//        self.configContentView()
         
         if let child = self.controllers.first {
             self.changeCurrentChildController(child)
@@ -124,27 +131,29 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         
         self.view.translatesAutoresizingMaskIntoConstraints = false
         self.titleView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.translatesAutoresizingMaskIntoConstraints = false
         
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[titleView]-0-|", options: .AlignAllLeft, metrics: nil, views: ["titleView":self.titleView])
         self.view.addConstraints(hConstraints)
         
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[titleView(==titleViewHeight)]", options: .AlignAllTop, metrics: ["titleViewHeight":self.titleViewHeight], views: ["titleView":self.titleView])
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-[titleView(==titleViewHeight)]", options: .AlignAllTop, metrics: ["titleViewHeight":self.titleViewHeight], views: ["titleView":self.titleView])
         self.view.addConstraints(vConstraints)
         
-        self.titleView.contentSize = CGSize(width: CGFloat(self.titles.count) * self.itemWidth, height: self.titleViewHeight)
+        self.titleView.contentSize = CGSize(width: CGFloat(self.titles.count) * self.titleViewItemWidth, height: self.titleViewHeight)
         
-        var itemViewHeight:CGFloat = self.slideLineHeight
-        if self.showSlideLine {
-            itemViewHeight = self.titleViewHeight - self.slideLineHeight
+        var itemViewHeight:CGFloat = self.titleViewHeight
+        if self.showStatusIndicateLine {
+            itemViewHeight = self.titleViewHeight - self.statusIndicateLineHeight
         }
         
         for i in 0..<self.titles.count {
-            let x = CGFloat(i) * self.itemWidth
-            let itemView = L8ItemView(frame: CGRect(x: x, y: 0, width: self.itemWidth, height: itemViewHeight))
+            let x = CGFloat(i) * self.titleViewItemWidth
+            let itemView = L8ItemView(frame: CGRect(x: x, y: 0, width: self.titleViewItemWidth, height: itemViewHeight))
             self.titleView.addSubview(itemView)
             itemView.delegate = self
             itemView.tag = i
+            itemView.title = self.titles[i]
+            itemView.titleColor = self.deselectedTitleColor
+            itemView.titleFont = self.titleFont
             self.itemViews.append(itemView)
         }
         
@@ -154,27 +163,6 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     
-    func configContentView()->Void{
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[contentView]-0-|", options: .AlignAllLeft, metrics: nil, views: ["contentView":self.contentView])
-        self.view.addConstraints(hConstraints)
-        
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[titleView]-0-[contentView]-0-|", options: .AlignAllLeft, metrics: ["titleViewHeight":self.titleViewHeight], views: ["titleView":self.titleView,"contentView":self.contentView])
-        self.view.addConstraints(vConstraints)
-        
-        self.contentView.contentSize = CGSize(width: CGFloat(self.controllers.count) * self.view.frame.size.width, height: self.view.frame.size.height - self.titleViewHeight)
-        
-        let viewHeight = self.view.frame.size.height - self.titleViewHeight
-        let viewWidth = self.view.frame.size.width
-        
-        for i in 0..<self.controllers.count {
-            let x = CGFloat(i) * viewWidth
-            let view = self.controllers[i].view
-            view.frame = CGRect(x: x, y: 0, width: viewWidth, height: viewHeight)
-            self.contentView.addSubview(view)
-        }
-
-    }
-    
     func configCollectionView()->Void{
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[collectionView]-0-|", options: .AlignAllLeft, metrics: nil, views: ["collectionView":self.collectionView])
@@ -183,7 +171,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[titleView]-0-[collectionView]-0-|", options: .AlignAllLeft, metrics: ["titleViewHeight":self.titleViewHeight], views: ["titleView":self.titleView,"collectionView":self.collectionView])
         self.view.addConstraints(vConstraints)
         
-        self.contentView.contentSize = CGSize(width: CGFloat(self.controllers.count) * self.view.frame.size.width, height: self.view.frame.size.height - self.titleViewHeight)
+        self.collectionView.contentSize = CGSize(width: CGFloat(self.controllers.count) * self.view.frame.size.width, height: self.view.frame.size.height - self.titleViewHeight)
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -204,40 +192,28 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         return cell
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        layout.scrollDirection = .Horizontal
-        layout.itemSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height - self.titleViewHeight)
-        self.collectionView.collectionViewLayout = layout
-    }
     
     func taped(itemView:L8ItemView) {
-        print("L8SlidebarItem taped")
         
-        var oldFrame = self.slideLineView.frame
-        oldFrame.origin.x = itemView.frame.origin.x + slideLineXOffset
+        var oldFrame = self.statusIndicateLineView.frame
+        oldFrame.origin.x = itemView.frame.origin.x + satusIndicateLineXOffset
         
         UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1.0, options: .TransitionNone, animations: { () -> Void in
-            self.slideLineView.frame = oldFrame
+            self.statusIndicateLineView.frame = oldFrame
             
-            let ariveTail = CGFloat(self.titles.count - itemView.tag + 1) * self.itemWidth < self.titleView.frame.size.width
+            let ariveTail = CGFloat(self.titles.count - itemView.tag + 1) * self.titleViewItemWidth < self.titleView.frame.size.width
             if itemView.tag == 1 {
                 self.titleView.contentOffset = CGPoint(x: 0, y: 0)
             }else if itemView.tag > 1 && !ariveTail{
-                self.titleView.contentOffset = CGPoint(x: itemView.frame.origin.x - self.itemWidth, y: 0)
+                self.titleView.contentOffset = CGPoint(x: itemView.frame.origin.x - self.titleViewItemWidth, y: 0)
             }else if itemView.tag > 1 && ariveTail {
                 self.titleView.contentOffset = CGPoint(x: self.titleView.contentSize.width - self.titleView.frame.size.width, y: 0)
             }
             }, completion: nil)
 
-        self.disableCollectionViewDelegateFunc = true
+        //self.disableCollectionViewDelegateFunc = true
         let indexPathScrollTo = NSIndexPath(forRow: itemView.tag, inSection: 0)
         self.collectionView.scrollToItemAtIndexPath(indexPathScrollTo, atScrollPosition: .Left, animated: false)
-        
         if self.controllers.count > itemView.tag {
             self.changeCurrentChildController(self.controllers[itemView.tag])
         }
@@ -248,10 +224,10 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     
     func changeCurrentItemView(itemView:L8ItemView){
         if let view = self.currentItemView {
-            view.titleColor = UIColor.blackColor()
+            view.titleColor = self.deselectedTitleColor
         }
         
-        itemView.titleColor = UIColor.brownColor()
+        itemView.titleColor = self.selectedTitleColor
         self.currentItemView = itemView
     }
     
@@ -272,21 +248,19 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         let preOffsetX = CGFloat(self.currentSelectIndex) * self.collectionView.frame.size.width
         if self.collectionView.contentOffset.x > preOffsetX {
             let movePercent = (self.collectionView.contentOffset.x - preOffsetX) / self.collectionView.frame.size.width
-            var oldFrame = self.slideLineView.frame
-            oldFrame.origin.x =  self.slideLineViewXUnderCurrentSelectIndex() + itemWidth * movePercent
-            self.slideLineView.frame = oldFrame
+            var oldFrame = self.statusIndicateLineView.frame
+            oldFrame.origin.x =  self.statusIndicateLineViewXUnderCurrentSelectIndex() + titleViewItemWidth * movePercent
+            self.statusIndicateLineView.frame = oldFrame
             
-            print("\(movePercent)")
         }else if self.collectionView.contentOffset.x < preOffsetX {
             let movePercent = (self.collectionView.contentOffset.x - preOffsetX) / self.collectionView.frame.size.width
-            var oldFrame = self.slideLineView.frame
-            oldFrame.origin.x =  self.slideLineViewXUnderCurrentSelectIndex() + itemWidth * movePercent
-            self.slideLineView.frame = oldFrame
+            var oldFrame = self.statusIndicateLineView.frame
+            oldFrame.origin.x =  self.statusIndicateLineViewXUnderCurrentSelectIndex() + titleViewItemWidth * movePercent
+            self.statusIndicateLineView.frame = oldFrame
             
-            print("\(movePercent)")
         }
         
-        let offsetX = self.itemWidth / self.collectionView.frame.size.width * self.collectionView.contentOffset.x - itemWidth
+        let offsetX = self.titleViewItemWidth / self.collectionView.frame.size.width * self.collectionView.contentOffset.x - titleViewItemWidth
         
         if offsetX <= self.titleView.contentSize.width - self.titleView.frame.size.width && offsetX >= 0{
             
@@ -300,77 +274,18 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
             self.disableCollectionViewDelegateFunc = false
             return
         }
-        
         let currentIndex = self.collectionView.contentOffset.x / self.collectionView.frame.size.width
         self.currentSelectIndex = Int(currentIndex)
-        print("currentSelectedIndex \(self.currentSelectIndex)")
         
         let itemView = self.itemViews[self.currentSelectIndex]
         self.changeCurrentItemView(itemView)
         
-        /*
-        let preOffsetX = CGFloat(self.currentSelectIndex) * self.collectionView.frame.size.width
-        if self.collectionView.contentOffset.x > preOffsetX {
-            
-            var oldFrame = self.slideLineView.frame
-            oldFrame.origin.x =  self.slideLineViewXUnderCurrentSelectIndex() + itemWidth
-            self.slideLineView.frame = oldFrame
-
-            let newSelectedIndex = self.currentSelectIndex + 1
-            let adjustX = CGFloat(self.currentSelectIndex) * self.itemWidth
-            
-            print("\(currentSelectIndex,newSelectedIndex)")
-            
-            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .TransitionNone, animations: { () -> Void in
-                
-                let ariveTail = CGFloat(self.titles.count - newSelectedIndex + 1) * self.itemWidth < self.titleView.frame.size.width
-                if newSelectedIndex == 1 {
-                    self.titleView.contentOffset = CGPoint(x: 0, y: 0)
-                }else if newSelectedIndex > 1 && !ariveTail{
-                    self.titleView.contentOffset = CGPoint(x: adjustX, y: 0)
-                }else if newSelectedIndex > 1 && ariveTail {
-                    self.titleView.contentOffset = CGPoint(x: self.titleView.contentSize.width - self.titleView.frame.size.width, y: 0)
-                }
-                }, completion: nil)
-            
-            if self.controllers.count > newSelectedIndex {
-                self.changeCurrentChildController(self.controllers[newSelectedIndex])
-            }
-            currentSelectIndex = newSelectedIndex
-            
-        }else if self.collectionView.contentOffset.x < preOffsetX {
-            
-            var oldFrame = self.slideLineView.frame
-            oldFrame.origin.x =  self.slideLineViewXUnderCurrentSelectIndex() - itemWidth
-            self.slideLineView.frame = oldFrame
-           
-            let newSelectedIndex = self.currentSelectIndex - 1
-            print("\(currentSelectIndex,newSelectedIndex)")
-            UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .TransitionNone, animations: { () -> Void in
-                
-                let ariveTail = CGFloat(self.titles.count - newSelectedIndex + 1) * self.itemWidth < self.titleView.frame.size.width
-                if newSelectedIndex == 1 {
-                    self.titleView.contentOffset = CGPoint(x: 0, y: 0)
-                }else if newSelectedIndex > 1 && !ariveTail{
-                    self.titleView.contentOffset = CGPoint(x: CGFloat(newSelectedIndex - 1) * self.itemWidth, y: 0)
-                }else if newSelectedIndex > 1 && ariveTail {
-                    self.titleView.contentOffset = CGPoint(x: self.titleView.contentSize.width - self.titleView.frame.size.width, y: 0)
-                }
-                }, completion: nil)
-            
-            if self.controllers.count > newSelectedIndex {
-                self.changeCurrentChildController(self.controllers[newSelectedIndex])
-            }
-            currentSelectIndex = newSelectedIndex
-        }
-        */
-        
-        
     }
 
-    func slideLineViewXUnderCurrentSelectIndex()->CGFloat {
+    
+    func statusIndicateLineViewXUnderCurrentSelectIndex()->CGFloat {
         
-        return CGFloat(self.currentSelectIndex) * itemWidth + slideLineXOffset
+        return CGFloat(self.currentSelectIndex) * titleViewItemWidth + satusIndicateLineXOffset
         
     }
     

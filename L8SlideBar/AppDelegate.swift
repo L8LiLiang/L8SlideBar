@@ -20,8 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
         
-        let controller = L8SlideBarController(titleViewHeight: 40, slideLineHeight: 2)
-        controller.titles = ["1","2","3","4","5","6","7","8","9","1000000"]
+        let controller = L8SlideBarController(titleViewHeight: 32, statusIndicateLineHeight: 2)
+        controller.titles = ["头条","圈子","集锦","中超","深度","足彩","专题","闲情","英超","装备"]
+        controller.showStatusIndicateLine = true
+        controller.titleViewItemWidth = 80
+        controller.statusIndicateLineWidth = 60
+        controller.titleFont = UIFont.systemFontOfSize(14)
         
         for i in 0..<10 {
             let ctl = TestController(nibName: nil, bundle: nil)
