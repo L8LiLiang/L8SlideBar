@@ -1,16 +1,16 @@
 # L8SlideBar
 
-LSlideBar是用swift语言编写的滚动栏栏工具。
+L8SlideBar是用swift语言编写的滚动栏栏工具。
 
 
 #使用
 
-把
+1、把
 L8SlideBarController.swift
 L8SlideBarTitleItemView.swift
 两个文件添加到工程中
 
-
+2、创建L8SlideBarController
       
        let slideBarController = L8SlideBarController(titleViewHeight: 32, statusIndicateLineHeight: 2)
        slideBarController.titles = ["头条","圈子","集锦","中超","深度","足彩","专题","闲情","英超","装备"]
