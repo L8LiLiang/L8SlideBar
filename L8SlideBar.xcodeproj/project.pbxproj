@@ -15,6 +15,7 @@
 		212872DB1C9696FF00CAC526 /* L8SlideBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */; };
 		212872DD1C96A5AE00CAC526 /* L8SlideBarTitleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */; };
 		2129BE061C97AB3A003C8195 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2129BE051C97AB3A003C8195 /* TestController.swift */; };
+		2129BE131C99412D003C8195 /* L8SlideBarContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2129BE121C99412D003C8195 /* L8SlideBarContentCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,9 +47,10 @@
 		212872C81C96961E00CAC526 /* L8SlideBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = L8SlideBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		212872CC1C96961E00CAC526 /* L8SlideBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L8SlideBarUITests.swift; sourceTree = "<group>"; };
 		212872CE1C96961E00CAC526 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarController.swift; sourceTree = "<group>"; };
+		212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarTitleItemView.swift; sourceTree = "<group>"; };
 		2129BE051C97AB3A003C8195 /* TestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
+		2129BE121C99412D003C8195 /* L8SlideBarContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarContentCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				212872B81C96961E00CAC526 /* Info.plist */,
 				212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */,
 				212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */,
+				2129BE121C99412D003C8195 /* L8SlideBarContentCell.swift */,
 				2129BE051C97AB3A003C8195 /* TestController.swift */,
 			);
 			path = L8SlideBar;
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2129BE061C97AB3A003C8195 /* TestController.swift in Sources */,
+				2129BE131C99412D003C8195 /* L8SlideBarContentCell.swift in Sources */,
 				212872DD1C96A5AE00CAC526 /* L8SlideBarTitleItemView.swift in Sources */,
 				212872AD1C96961E00CAC526 /* AppDelegate.swift in Sources */,
 				212872DB1C9696FF00CAC526 /* L8SlideBarController.swift in Sources */,

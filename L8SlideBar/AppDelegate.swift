@@ -34,8 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             controller.controllers.append(ctl)
         }
         
-        
-        self.window?.rootViewController = controller
+        let navCtl = UINavigationController(rootViewController: controller)
+        self.window?.rootViewController = navCtl
         
         return true
     }
