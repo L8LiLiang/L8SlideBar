@@ -81,7 +81,6 @@ class L8SlideBarTitleItemView: UIView {
     
     func taped(sender:UITapGestureRecognizer)->Void{
         self.delegate?.taped(self)
-        print("taped")
     }
     
     deinit{

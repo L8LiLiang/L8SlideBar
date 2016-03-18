@@ -13,7 +13,7 @@ let myGreenColor = UIColor(red: 73/255.0, green: 206/255.0, blue: 23/255.0, alph
 
 let cell_reuse_id = "L8SlideBarContentCell"
 
-class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,L8SlideBarTitleItemViewDelegate {
+class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,L8SlideBarTitleItemViewDelegate {
     
     var titles:[String] = []
     var controllers:[UIViewController] = []
@@ -80,7 +80,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     
     private lazy var collectionView:UICollectionView = {
         
-        let layout = UICollectionViewFlowLayout()
+        let layout = L8SlideBarCollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         //layout.itemSize = CGSize(width: 10, height: 10)  //在viewDidLayoutSubviews方法中设置
@@ -111,6 +111,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         self.edgesForExtendedLayout = .None
+        self.automaticallyAdjustsScrollViewInsets = false
         self.view.backgroundColor = UIColor.redColor()
 
         self.configTitleView()
@@ -125,53 +126,68 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("viewWillAppear,\(self.collectionView.frame)")
+        //print("viewWillAppear,\(self.collectionView.frame)")
         
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        print("viewWillLayoutSubviews,\(self.collectionView.frame)")
+        //print("viewWillLayoutSubviews,\(self.collectionView.frame)")
     }
+    
     
     //viewDidLayoutSubviews在viewDidAppear之前进行调用，此时view的frame已经确定，此时是进行frame调整的良机
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
         
-        self.collectionView.contentSize = CGSize(width: CGFloat(self.controllers.count) * self.view.frame.size.width, height: self.collectionView.frame.size.height)
-        
-        let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+//        self.collectionView.contentSize = CGSize(width: CGFloat(self.controllers.count) * self.view.frame.size.width, height: self.collectionView.frame.size.height)
+        /*
+        let layout = self.collectionView.collectionViewLayout as! L8SlideBarCollectionViewFlowLayout
         layout.itemSize = CGSize(width: self.collectionView.frame.size.width, height: self.collectionView.frame.size.height)
-
+        
         print("viewDidLayoutSubviews \(self.collectionView.frame)")
         
-
+        layout.invalidateLayout()
+        */
+//        self.view.layoutSubviews()
+        
+        
+        super.viewDidLayoutSubviews()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        print("viewDidAppear")
+        //print("viewDidAppear")
         
         
     }
+ 
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        print("viewWillTransitionToSize \(size)")
-        let layout = self.collectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        layout.itemSize = CGSize(width: size.width, height: size.height)
+        //print("viewWillTransitionToSize")
+        if #available(iOS 8.0, *) {
+            super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        self.collectionView.collectionViewLayout.invalidateLayout()
         
         coordinator.animateAlongsideTransition(nil) { (transitionCoordinatorContext) -> Void in
+            self.collectionView.collectionViewLayout.invalidateLayout()
             if let itemView = self.currentItemView {
                 self.taped(itemView)
             }
         }
         
     }
-    
-    
+
+//    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+//        self.collectionView.collectionViewLayout.invalidateLayout()
+//
+//    }
     
  /*
     override func didMoveToParentViewController(parent: UIViewController?) {
@@ -220,12 +236,6 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[tapLayoutGuide]-0-[titleView(==titleViewHeight)]", options: .AlignAllLeft, metrics: ["titleViewHeight":self.titleViewHeight], views: ["titleView":self.titleView,"tapLayoutGuide":self.topLayoutGuide])
         self.view.addConstraints(vConstraints)
         
-        //self.layoutConstraintsNeedUpdate = vConstraints
-        
-//        let heigthConstraint = NSLayoutConstraint(item: self.titleView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 32)
-//        let topConstraint = NSLayoutConstraint(item: self.titleView, attribute: .Top, relatedBy: .Equal, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
-//        self.view.addConstraint(heigthConstraint)
-//        self.view.addConstraint(topConstraint)
         
         
         self.titleView.contentSize = CGSize(width: CGFloat(self.titles.count) * self.titleViewItemWidth, height: self.titleViewHeight)
@@ -245,12 +255,7 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
             itemView.titleColor = self.deselectedTitleColor
             itemView.titleFont = self.titleFont
             self.itemViews.append(itemView)
-//            itemView.translatesAutoresizingMaskIntoConstraints = false
-//            
-//            let hConst = NSLayoutConstraint.constraintsWithVisualFormat("H:|-offset-[itemView(==width)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["offset":x,"width":self.titleViewItemWidth], views: ["itemView":itemView])
-//            let vConst = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[itemView(==height)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["height":itemViewHeight], views: ["itemView":itemView])
-//            self.titleView.addConstraints(hConst)
-//            self.titleView.addConstraints(vConst)
+
         }
         
         if let itemView = self.itemViews.first {
@@ -286,9 +291,13 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return self.collectionView.bounds.size
+    }
+    
     
     func taped(itemView:L8SlideBarTitleItemView) {
-        
+        //print("taped")
         var oldFrame = self.statusIndicateLineView.frame
         oldFrame.origin.x = itemView.frame.origin.x + satusIndicateLineXOffset
         
@@ -363,12 +372,12 @@ class L8SlideBarController: UIViewController,UICollectionViewDataSource,UICollec
         }else if offsetX >= 0 {
             self.titleView.contentOffset = CGPoint(x: self.titleView.contentSize.width - self.titleView.frame.size.width, y: 0)
         }
-        print("contentOffset \(self.titleView.contentOffset)")
+        //print("contentOffset \(self.titleView.contentOffset)")
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         
-        print("scrollViewDidEndDecelerating")
+        //print("scrollViewDidEndDecelerating")
         
         if self.disableCollectionViewDelegateFunc {
             self.disableCollectionViewDelegateFunc = false

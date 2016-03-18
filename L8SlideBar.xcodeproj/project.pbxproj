@@ -16,6 +16,7 @@
 		212872DD1C96A5AE00CAC526 /* L8SlideBarTitleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */; };
 		2129BE061C97AB3A003C8195 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2129BE051C97AB3A003C8195 /* TestController.swift */; };
 		2129BE131C99412D003C8195 /* L8SlideBarContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2129BE121C99412D003C8195 /* L8SlideBarContentCell.swift */; };
+		2129BE171C9BDE99003C8195 /* L8SlideBarCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2129BE161C9BDE99003C8195 /* L8SlideBarCollectionViewFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarTitleItemView.swift; sourceTree = "<group>"; };
 		2129BE051C97AB3A003C8195 /* TestController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		2129BE121C99412D003C8195 /* L8SlideBarContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarContentCell.swift; sourceTree = "<group>"; };
+		2129BE161C9BDE99003C8195 /* L8SlideBarCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = L8SlideBarCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				212872B51C96961E00CAC526 /* LaunchScreen.storyboard */,
 				212872B81C96961E00CAC526 /* Info.plist */,
 				212872DA1C9696FF00CAC526 /* L8SlideBarController.swift */,
+				2129BE161C9BDE99003C8195 /* L8SlideBarCollectionViewFlowLayout.swift */,
 				212872DC1C96A5AD00CAC526 /* L8SlideBarTitleItemView.swift */,
 				2129BE121C99412D003C8195 /* L8SlideBarContentCell.swift */,
 				2129BE051C97AB3A003C8195 /* TestController.swift */,
@@ -265,6 +268,7 @@
 				2129BE131C99412D003C8195 /* L8SlideBarContentCell.swift in Sources */,
 				212872DD1C96A5AE00CAC526 /* L8SlideBarTitleItemView.swift in Sources */,
 				212872AD1C96961E00CAC526 /* AppDelegate.swift in Sources */,
+				2129BE171C9BDE99003C8195 /* L8SlideBarCollectionViewFlowLayout.swift in Sources */,
 				212872DB1C9696FF00CAC526 /* L8SlideBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,6 +404,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = L8SlideBar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = elane.L8SlideBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -411,6 +416,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = L8SlideBar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = elane.L8SlideBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
