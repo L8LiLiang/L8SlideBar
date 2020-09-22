@@ -4,12 +4,12 @@ pipeline {
         stage('build') {
             steps {
                 sh 'python --version'
-		sh './fail'
             }
         }
         stage('Test') {
             steps {
 		echo "Testing"
+		sh './fail'
             }
         }
         stage('Deploy') {
