@@ -25,3 +25,5 @@ L8SlideBarTitleItemView.swift`
         slideBarController.titleViewItemWidth = 80
         slideBarController.statusIndicateLineWidth = 60
         slideBarController.titleFont = UIFont.systemFontOfSize(14)
+
+jenkins test 1
