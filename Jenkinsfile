@@ -9,7 +9,6 @@ pipeline {
         stage('Test') {
             steps {
 		echo "Testing"
-		sh './fail'
             }
         }
         stage('Deploy') {
@@ -21,6 +20,7 @@ pipeline {
 
     post {
         always {
+	    junit 'build/reports/*.xml'
             echo 'One way or another, I have finished'
             deleteDir() /* clean up our workspace */
         }
